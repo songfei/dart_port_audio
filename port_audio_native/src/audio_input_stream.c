@@ -24,7 +24,7 @@ static int port_audio_native_recoder_callback( const void *inputBuffer, void *ou
 {
     NativeAudioStream* nativeAudioStream = (NativeAudioStream*)userData;
 
-    printf("receive audio data: %lld %ld\n", nativeAudioStream->nativePort,  framesPerBuffer);
+//    printf("receive audio data: %lld %ld\n", nativeAudioStream->nativePort,  framesPerBuffer);
 
     int byteCountPerFrame = 0;
     if(nativeAudioStream->sampleFormat == SAMPLE_FORMAT_INT16) {

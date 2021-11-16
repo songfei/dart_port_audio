@@ -8,7 +8,6 @@
 #include <stdint.h>
 #include "common.h"
 
-
 #define SAMPLE_FORMAT_INT16     0
 #define SAMPLE_FORMAT_FLOAT32   1
 

@@ -11,10 +11,8 @@
 #include <stdio.h>
 
 void port_audio_native_initialize(void* dartApiData) {
-    printf("init native: %p\n", dartApiData);
     Dart_InitializeApiDL(dartApiData);
     Pa_Initialize();
-    printf("init native2: %p\n", dartApiData);
 }
 
 void port_audio_native_terminate() {
