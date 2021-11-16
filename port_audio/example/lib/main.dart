@@ -1,23 +1,24 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:port_audio/port_audio.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  AudioInputStream? stream1;
-  AudioInputStream? stream2;
+
+  AudioInputStream? stream;
 
   @override
   void initState() {
@@ -27,40 +28,34 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    var defaultInputDevice = AudioDeviceManager.instance.defaultInputDevice;
-    _platformVersion = defaultInputDevice.toString();
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // We also handle the message potentially returning null.
+    try {
+      platformVersion = await PortAudio.platformVersion ?? 'Unknown platform version';
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
 
-    List<AudioDeviceInfo> inputDevices = AudioDeviceManager.instance.inputDevices;
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+    AudioDeviceManager.instance;
 
-    print(inputDevices);
+    var defaultDevice = AudioDeviceManager.instance.defaultInputDevice;
 
-    stream1 = AudioDeviceManager.instance.createInputStream(device: inputDevices[1]);
-    stream2 = AudioDeviceManager.instance.createInputStream(device: inputDevices[2]);
+    print(defaultDevice);
 
-    print('${stream1!.nativeStreamPtr} ${stream2!.nativeStreamPtr}');
+    stream = AudioDeviceManager.instance.createInputStream(device: defaultDevice);
 
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    print(appDocPath);
-
-    File file1 = File('./test1.pcm');
-    File file2 = File('./test2.pcm');
-    List<int> buffer1 = [];
-    List<int> buffer2 = [];
-
-    stream1!.stream.listen((event) {
-      buffer1.addAll(event);
-    }, onDone: () {
-      file1.writeAsBytesSync(buffer1);
+    stream!.stream.listen((event) {
+      print(event);
     });
 
-    stream2!.stream.listen((event) {
-      buffer2.addAll(event);
-    }, onDone: () {
-      file2.writeAsBytesSync(buffer2);
+    setState(() {
+      _platformVersion = platformVersion;
     });
-
-    setState(() {});
   }
 
   @override
@@ -70,27 +65,26 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Column(
-            children: [
-              Text('Running on: $_platformVersion\n'),
-              FlatButton(
-                  onPressed: () {
-                    stream1!.start();
-                    stream2!.start();
-                  },
-                  child: Text('开始')),
-              FlatButton(
-                  onPressed: () {
-                    stream1!.stop();
-                    stream1!.close();
-
-                    stream2!.stop();
-                    stream2!.close();
-                  },
-                  child: Text('结束')),
-            ],
-          ),
+        body: Column(
+          children: [
+            Center(
+              child: Text('Running on: $_platformVersion\n'),
+            ),
+            FlatButton(
+              onPressed: () {
+                stream!.start();
+              },
+              child: const Text('开始'),
+            ),
+            FlatButton(
+              onPressed: () {
+                stream!.stop();
+                stream!.close();
+                stream = null;
+              },
+              child: const Text('结束'),
+            ),
+          ],
         ),
       ),
     );
