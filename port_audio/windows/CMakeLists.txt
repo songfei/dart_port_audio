@@ -19,6 +19,6 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE flutter flutter_wrapper_plugin)
 
 # List of absolute paths to libraries that should be bundled with the plugin
 set(port_audio_bundled_libraries
-  ""
+  "${CMAKE_CURRENT_SOURCE_DIR}/library/port_audio_native.dll"
   PARENT_SCOPE
 )
