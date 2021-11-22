@@ -176,17 +176,14 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/path_provider_macos/path_provider_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/port_audio/macos/Frameworks/port_audio_native.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/port_audio/port_audio.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/path_provider_macos/path_provider_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/port_audio/macos/Frameworks/port_audio_native.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/port_audio/port_audio.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/path_provider_macos/path_provider_macos.framework"
   install_framework "${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/port_audio/macos/Frameworks/port_audio_native.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/port_audio/port_audio.framework"
 fi

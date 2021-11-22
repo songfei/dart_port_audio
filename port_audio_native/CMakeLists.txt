@@ -9,7 +9,6 @@ include_directories(
 )
 
 
-
 if(WIN32)
     link_directories(
         lib/portaudio/windows
@@ -53,7 +52,7 @@ if(APPLE)
         MACOSX_FRAMEWORK_BUNDLE_VERSION 1.0.0
         VERSION 1.0.0
         XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
-        PUBLIC_HEADER ${PUBLIC_HEADERS}
+#        PUBLIC_HEADER ${PUBLIC_HEADERS}
     )
 
 
