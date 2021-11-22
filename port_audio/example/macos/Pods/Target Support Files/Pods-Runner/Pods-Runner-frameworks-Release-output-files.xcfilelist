@@ -1,0 +1,3 @@
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider_macos.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/port_audio_native.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/port_audio.framework
