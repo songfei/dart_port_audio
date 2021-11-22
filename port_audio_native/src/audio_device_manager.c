@@ -8,11 +8,13 @@
 #include <portaudio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 void port_audio_native_initialize(void* dartApiData) {
     Dart_InitializeApiDL(dartApiData);
     Pa_Initialize();
 }
+
 void port_audio_native_terminate() {
     Pa_Terminate();
 }

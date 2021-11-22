@@ -24,6 +24,8 @@ static int port_audio_native_recoder_callback( const void *inputBuffer, void *ou
 {
     NativeAudioStream* nativeAudioStream = (NativeAudioStream*)userData;
 
+//    printf("receive audio data: %lld %ld\n", nativeAudioStream->nativePort,  framesPerBuffer);
+
     int byteCountPerFrame = 0;
     if(nativeAudioStream->sampleFormat == SAMPLE_FORMAT_INT16) {
         byteCountPerFrame = 2;
@@ -36,7 +38,7 @@ static int port_audio_native_recoder_callback( const void *inputBuffer, void *ou
 
     Dart_CObject dart_object;
     dart_object.type = Dart_CObject_kExternalTypedData;
-    dart_object.value.as_external_typed_data.type = Dart_TypedData_kByteData;
+    dart_object.value.as_external_typed_data.type = Dart_TypedData_kUint8;
 
     dart_object.value.as_external_typed_data.length = (int)bufferLength;
     dart_object.value.as_external_typed_data.data = (uint8_t*)malloc(bufferLength);

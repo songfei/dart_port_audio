@@ -38,7 +38,11 @@ class AudioDeviceManager {
   static AudioDeviceManager? _instance;
 
   AudioDeviceManager._() {
+    print('====== init');
+    print('= ${nativeLibrary.port_audio_native_initialize}');
     nativeLibrary.port_audio_native_initialize(NativeApi.initializeApiDLData);
+
+    print('====== init finish');
   }
 
   static AudioDeviceManager get instance => _instance ??= AudioDeviceManager._();
@@ -96,14 +100,12 @@ class AudioDeviceManager {
     int channelCount = 1,
     double samplingRate = 16000,
     AudioDeviceInfo? device,
-    int frameCountPreBuffer = 320,
+    int frameCountPreBuffer = 3200,
     SampleFormat sampleFormat = SampleFormat.int16,
   }) {
     ReceivePort port = ReceivePort();
 
-    if (device == null) {
-      device = defaultInputDevice;
-    }
+    device ??= defaultInputDevice;
 
     Pointer<NativeAudioStream> streamPtr = nativeLibrary.port_audio_native_create_input_stream(
       device.deviceIndex,
@@ -113,6 +115,8 @@ class AudioDeviceManager {
       samplingRate,
       frameCountPreBuffer,
     );
+
+    print('port: ${port.sendPort.nativePort}');
 
     return AudioInputStream(
       nativeStreamPtr: streamPtr,

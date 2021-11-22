@@ -1,1 +1,3 @@
 port_audio_native/cmake-build-debug
+port_audio_native/cmake-build-debug-visual-studio/
+port_audio_native/cmake-build-release-visual-studio/
