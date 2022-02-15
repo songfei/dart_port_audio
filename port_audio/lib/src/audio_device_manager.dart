@@ -38,11 +38,7 @@ class AudioDeviceManager {
   static AudioDeviceManager? _instance;
 
   AudioDeviceManager._() {
-    print('====== init');
-    print('= ${nativeLibrary.port_audio_native_initialize}');
     nativeLibrary.port_audio_native_initialize(NativeApi.initializeApiDLData);
-
-    print('====== init finish');
   }
 
   static AudioDeviceManager get instance => _instance ??= AudioDeviceManager._();
@@ -82,21 +78,27 @@ class AudioDeviceManager {
     return deviceInfoList;
   }
 
-  AudioDeviceInfo get defaultInputDevice {
+  AudioDeviceInfo? get defaultInputDevice {
     Pointer<NativeAudioDeviceInfo> nativeDeviceInfoPtr = nativeLibrary.port_audio_native_get_default_input_device();
-    AudioDeviceInfo deviceInfo = deviceInfoFromNative(nativeDeviceInfoPtr.ref);
-    nativeLibrary.port_audio_native_destroy_device_info(nativeDeviceInfoPtr);
-    return deviceInfo;
+    if (nativeDeviceInfoPtr != nullptr) {
+      AudioDeviceInfo deviceInfo = deviceInfoFromNative(nativeDeviceInfoPtr.ref);
+      nativeLibrary.port_audio_native_destroy_device_info(nativeDeviceInfoPtr);
+      return deviceInfo;
+    }
+    return null;
   }
 
-  AudioDeviceInfo get defaultOutputDevice {
+  AudioDeviceInfo? get defaultOutputDevice {
     Pointer<NativeAudioDeviceInfo> nativeDeviceInfoPtr = nativeLibrary.port_audio_native_get_default_output_device();
-    AudioDeviceInfo deviceInfo = deviceInfoFromNative(nativeDeviceInfoPtr.ref);
-    nativeLibrary.port_audio_native_destroy_device_info(nativeDeviceInfoPtr);
-    return deviceInfo;
+    if (nativeDeviceInfoPtr != nullptr) {
+      AudioDeviceInfo deviceInfo = deviceInfoFromNative(nativeDeviceInfoPtr.ref);
+      nativeLibrary.port_audio_native_destroy_device_info(nativeDeviceInfoPtr);
+      return deviceInfo;
+    }
+    return null;
   }
 
-  AudioInputStream createInputStream({
+  AudioInputStream? createInputStream({
     int channelCount = 1,
     double samplingRate = 16000,
     AudioDeviceInfo? device,
@@ -107,21 +109,25 @@ class AudioDeviceManager {
 
     device ??= defaultInputDevice;
 
-    Pointer<NativeAudioStream> streamPtr = nativeLibrary.port_audio_native_create_input_stream(
-      device.deviceIndex,
-      port.sendPort.nativePort,
-      channelCount,
-      sampleFormat.index,
-      samplingRate,
-      frameCountPreBuffer,
-    );
+    if (device != null) {
+      Pointer<NativeAudioStream> streamPtr = nativeLibrary.port_audio_native_create_input_stream(
+        device.deviceIndex,
+        port.sendPort.nativePort,
+        channelCount,
+        sampleFormat.index,
+        samplingRate,
+        frameCountPreBuffer,
+      );
 
-    print('port: ${port.sendPort.nativePort}');
+      // print('port: ${port.sendPort.nativePort}');
 
-    return AudioInputStream(
-      nativeStreamPtr: streamPtr,
-      port: port,
-    );
+      return AudioInputStream(
+        nativeStreamPtr: streamPtr,
+        port: port,
+      );
+    }
+
+    return null;
   }
 
   void dispose() {

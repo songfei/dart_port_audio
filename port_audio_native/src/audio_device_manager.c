@@ -31,14 +31,20 @@ NativeAudioDeviceInfo* port_audio_native_create_native_device_info(int index, co
 
 NativeAudioDeviceInfo* port_audio_native_get_default_input_device() {
     PaDeviceIndex index = Pa_GetDefaultInputDevice();
-    const PaDeviceInfo* info = Pa_GetDeviceInfo(index);
-    return port_audio_native_create_native_device_info(index, info);
+    if(index != paNoDevice ) {
+        const PaDeviceInfo* info = Pa_GetDeviceInfo(index);
+        return port_audio_native_create_native_device_info(index, info);
+    }
+    return NULL;
 }
 
 NativeAudioDeviceInfo* port_audio_native_get_default_output_device() {
     PaDeviceIndex index = Pa_GetDefaultOutputDevice();
-    const PaDeviceInfo* info = Pa_GetDeviceInfo(index);
-    return port_audio_native_create_native_device_info(index, info);
+    if(index != paNoDevice) {
+        const PaDeviceInfo* info = Pa_GetDeviceInfo(index);
+        return port_audio_native_create_native_device_info(index, info);
+    }
+    return NULL;
 }
 
 NativeAudioDeviceInfoList* port_audio_native_get_input_device_list() {

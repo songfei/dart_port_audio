@@ -107,14 +107,20 @@ void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream) {
 }
 void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream) {
     if(nativeStream && nativeStream->stream != NULL) {
-        Pa_AbortStream(nativeStream->stream);
+        PaError error = Pa_AbortStream(nativeStream->stream);
+        if(error != paNoError) {
+            printf("abort stream error: %s\n", Pa_GetErrorText(error));
+        }
     }
 }
 
 void port_audio_native_destroy_input_stream(NativeAudioStream* nativeStream) {
     if(nativeStream) {
         if(nativeStream->stream != NULL) {
-            Pa_CloseStream(nativeStream->stream);
+            PaError error = Pa_CloseStream(nativeStream->stream);
+            if(error != paNoError) {
+                printf("close stream error: %s\n", Pa_GetErrorText(error));
+            }
         }
         free(nativeStream);
     }
