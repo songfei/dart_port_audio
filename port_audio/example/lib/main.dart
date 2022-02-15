@@ -19,6 +19,7 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
 
   AudioInputStream? stream;
+  StreamSubscription? audioSubscription;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion = await PortAudio.platformVersion ?? 'Unknown platform version';
+      // platformVersion = await PortAudio.platformVersion ?? 'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -43,18 +44,8 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
     AudioDeviceManager.instance;
 
-    var defaultDevice = AudioDeviceManager.instance.defaultInputDevice;
-
-    print(defaultDevice);
-
-    stream = AudioDeviceManager.instance.createInputStream(device: defaultDevice);
-
-    stream!.stream.listen((event) {
-      print(event);
-    });
-
     setState(() {
-      _platformVersion = platformVersion;
+      // _platformVersion = platformVersion;
     });
   }
 
@@ -72,14 +63,33 @@ class _MyAppState extends State<MyApp> {
             ),
             FlatButton(
               onPressed: () {
+                var defaultDevice = AudioDeviceManager.instance.defaultInputDevice;
+
+                print(defaultDevice);
+
+                if (stream != null) {
+                  audioSubscription?.cancel();
+                  stream!.stop();
+                  stream!.close();
+                  stream = null;
+                }
+
+                stream = AudioDeviceManager.instance.createInputStream(device: defaultDevice);
+                audioSubscription = stream?.stream.listen((event) {
+                  if (event is List) {
+                    print(event.length);
+                  }
+                });
+
                 stream!.start();
               },
               child: const Text('开始'),
             ),
             FlatButton(
               onPressed: () {
-                stream!.stop();
-                stream!.close();
+                audioSubscription?.cancel();
+                stream?.stop();
+                stream?.close();
                 stream = null;
               },
               child: const Text('结束'),

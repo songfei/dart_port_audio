@@ -1,0 +1,3 @@
+/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/CMakeFiles/rebuild_cache.dir
+/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/CMakeFiles/edit_cache.dir
+/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/CMakeFiles/port_audio_native.dir

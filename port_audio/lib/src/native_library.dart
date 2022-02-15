@@ -8,4 +8,5 @@ final DynamicLibrary dynamicLibrary = Platform.isAndroid
     : Platform.isWindows
         ? DynamicLibrary.open("port_audio_native.dll")
         : DynamicLibrary.process();
+
 final nativeLibrary = NativeLibrary(dynamicLibrary);

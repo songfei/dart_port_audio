@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="port_audio_native"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="port_audio_native">
+				<Option output="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/port_audio_native.framework/port_audio_native" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/songfei/Developer/port_audio/port_audio_native/include"/>
+					<Add directory="/Users/songfei/Developer/port_audio/port_audio_native/lib/portaudio/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 port_audio_native"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="port_audio_native/fast">
+				<Option output="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/port_audio_native.framework/port_audio_native" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/songfei/Developer/port_audio/port_audio_native/include"/>
+					<Add directory="/Users/songfei/Developer/port_audio/port_audio_native/lib/portaudio/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 port_audio_native/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/songfei/Developer/port_audio/port_audio_native/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_api.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_api_dl.c">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_api_dl.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_native_api.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_tools_api.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/dart_version.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/include/internal/dart_api_dl_impl.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/src/audio_device_manager.c">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/src/audio_device_manager.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/src/audio_input_stream.c">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/src/audio_input_stream.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/src/common.h">
+			<Option target="port_audio_native"/>
+		</Unit>
+		<Unit filename="/Users/songfei/Developer/port_audio/port_audio_native/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

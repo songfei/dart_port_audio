@@ -16,6 +16,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  ffigen: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -34,6 +35,8 @@ flutter:
       ios:
         pluginClass: PortAudioPlugin
       windows:
+        pluginClass: PortAudioPlugin
+      macos:
         pluginClass: PortAudioPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
@@ -66,3 +69,10 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/custom-fonts/#from-packages
+
+ffigen:
+  output: 'lib/generated/native_bindings.dart'
+  headers:
+    entry-points:
+      - '../port_audio_native/src/audio_device_manager.h'
+      - '../port_audio_native/src/audio_input_stream.h'

@@ -102,7 +102,7 @@ class AudioDeviceManager {
     int channelCount = 1,
     double samplingRate = 16000,
     AudioDeviceInfo? device,
-    int frameCountPreBuffer = 3200,
+    int frameCountPreBuffer = 320,
     SampleFormat sampleFormat = SampleFormat.int16,
   }) {
     ReceivePort port = ReceivePort();
