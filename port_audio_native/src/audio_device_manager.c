@@ -7,16 +7,40 @@
 
 #include <portaudio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 
-void port_audio_native_initialize(void* dartApiData) {
+void port_audio_native_initialize(void* dartApiData, int64_t callbackPort) {
     Dart_InitializeApiDL(dartApiData);
     Pa_Initialize();
+    port_audio_native_callback_port = callbackPort;
+    pthread_mutex_init(&call_function_mutex, 0);
 }
 
 void port_audio_native_terminate() {
     Pa_Terminate();
+    pthread_mutex_destroy(&call_function_mutex);
+}
+
+void port_audio_native_callback(void* result, const char* callbackId) {
+
+    Dart_CObject callbackIdObject;
+    callbackIdObject.type = Dart_CObject_kString;
+    callbackIdObject.value.as_string = callbackId;
+
+    Dart_CObject resultObject;
+    resultObject.type = Dart_CObject_kNativePointer;
+    resultObject.value.as_native_pointer.ptr = result;
+
+    Dart_CObject* value_objects[] = {&callbackIdObject, &resultObject};
+
+    Dart_CObject dart_object;
+    dart_object.type = Dart_CObject_kArray;
+    dart_object.value.as_array.length = 2;
+    dart_object.value.as_array.values = value_objects;
+
+    Dart_PostCObject_DL(port_audio_native_callback_port, &dart_object);
+
+    free(callbackId);
 }
 
 NativeAudioDeviceInfo* port_audio_native_create_native_device_info(int index, const PaDeviceInfo* info) {

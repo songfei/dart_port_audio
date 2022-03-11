@@ -3,12 +3,15 @@
 //
 
 #include "audio_input_stream.h"
+#include "audio_device_manager.h"
 
 #include <portaudio.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <dart_api_dl.h>
 #include <memory.h>
+#include <string.h>
+
 
 static void post_c_object_finish_call_back(void* isolate_callback_data, void* peer) {
     if(peer != NULL) {
@@ -52,43 +55,68 @@ static int port_audio_native_recoder_callback( const void *inputBuffer, void *ou
     return 0;
 }
 
+typedef struct {
+    NativeAudioStream* nativeAudioStream;
+    const char* callbackId;
+} PortAudioNativeCreateInputStreamArgs;
 
-NativeAudioStream* port_audio_native_create_input_stream(int32_t deviceIndex, int64_t nativePort, int32_t channelCount,
-                                                         int32_t sampleFormat, double sampleRate,
-                                                         int32_t frameCountPerBuffer) {
+void* port_audio_native_create_input_stream_run(void* args) {
+    PortAudioNativeCreateInputStreamArgs* structArgs = (PortAudioNativeCreateInputStreamArgs*)args;
+
+    pthread_mutex_lock(&call_function_mutex);
+
     PaStreamParameters parameters;
     memset(&parameters, 0, sizeof(PaStreamParameters));
-    parameters.channelCount = channelCount;
-    parameters.device = deviceIndex;
+    parameters.channelCount = structArgs->nativeAudioStream->channelCount;
+    parameters.device = structArgs->nativeAudioStream->deviceIndex;
 
-    if(sampleFormat == SAMPLE_FORMAT_FLOAT32) {
+    if(structArgs->nativeAudioStream->sampleFormat == SAMPLE_FORMAT_FLOAT32) {
         parameters.sampleFormat = paFloat32;
     }
     else {
         parameters.sampleFormat = paInt16;
     }
 
+    NativeAudioStream* nativeStream = structArgs->nativeAudioStream;
+
+    PaError error = Pa_OpenStream(&nativeStream->stream, &parameters, NULL, nativeStream->sampleRate, nativeStream->frameCountPerBuffer, 0, port_audio_native_recoder_callback, nativeStream );
+    if(error == paNoError){
+
+    }
+
+    printf("create stream error: %s\n", Pa_GetErrorText(error));
+    free(nativeStream);
+
+    pthread_mutex_unlock(&call_function_mutex);
+
+    return NULL;
+}
+
+
+
+void port_audio_native_create_input_stream(int32_t deviceIndex, int64_t nativePort, int32_t channelCount,
+                                                         int32_t sampleFormat, double sampleRate,
+                                                         int32_t frameCountPerBuffer, const char* callbackId) {
+
     NativeAudioStream* nativeStream = (NativeAudioStream*)malloc(sizeof(NativeAudioStream));
     memset(nativeStream, 0, sizeof(NativeAudioStream));
-    nativeStream->sample_rate = sampleRate;
+    nativeStream->sampleRate = sampleRate;
     nativeStream->sampleFormat = sampleFormat;
     nativeStream->deviceIndex = deviceIndex;
     nativeStream->channelCount = channelCount;
     nativeStream->frameCountPerBuffer = frameCountPerBuffer;
     nativeStream->nativePort = nativePort;
 
-    PaError error = Pa_OpenStream(&nativeStream->stream, &parameters, NULL, sampleRate,frameCountPerBuffer, 0, port_audio_native_recoder_callback, nativeStream );
-    if(error == paNoError){
-        return nativeStream;
-    }
+    PortAudioNativeCreateInputStreamArgs* args = (PortAudioNativeCreateInputStreamArgs* )malloc(sizeof(PortAudioNativeCreateInputStreamArgs));
+    memset(args, 0, sizeof(PortAudioNativeCreateInputStreamArgs));
+    args->nativeAudioStream = nativeStream;
+    args->callbackId = _strdup(callbackId);
 
-    printf("create stream error: %s\n", Pa_GetErrorText(error));
-
-    free(nativeStream);
-    return NULL;
+    pthread_t thread;
+    pthread_create(&thread, NULL, port_audio_native_create_input_stream_run, (void*)args);
 }
 
-void port_audio_native_start_input_stream(NativeAudioStream* nativeStream) {
+void port_audio_native_start_input_stream(NativeAudioStream* nativeStream, const char* callbackId) {
     if(nativeStream && nativeStream->stream != NULL) {
         PaError error = Pa_StartStream(nativeStream->stream);
         if(error != paNoError) {
@@ -97,7 +125,7 @@ void port_audio_native_start_input_stream(NativeAudioStream* nativeStream) {
     }
 }
 
-void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream) {
+void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream, const char* callbackId) {
     if(nativeStream && nativeStream->stream != NULL) {
         PaError error = Pa_StopStream(nativeStream->stream);
         if(error != paNoError) {
@@ -105,7 +133,7 @@ void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream) {
         }
     }
 }
-void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream) {
+void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream, const char* callbackId) {
     if(nativeStream && nativeStream->stream != NULL) {
         PaError error = Pa_AbortStream(nativeStream->stream);
         if(error != paNoError) {

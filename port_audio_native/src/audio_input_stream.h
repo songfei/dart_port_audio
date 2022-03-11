@@ -20,16 +20,16 @@ typedef struct  {
 
     int32_t sampleFormat;
     int32_t frameCountPerBuffer;
-    double sample_rate;
+    double sampleRate;
 } NativeAudioStream;
 
-EXPORT_API NativeAudioStream* port_audio_native_create_input_stream(int32_t deviceIndex, int64_t nativePort, int32_t channelCount,
-                                                         int32_t sample_format, double sample_rate,
-                                                         int32_t frame_count_per_buffer);
+EXPORT_API void port_audio_native_create_input_stream(int32_t deviceIndex, int64_t nativePort, int32_t channelCount,
+                                                                    int32_t sampleFormat, double sampleRate,
+                                                                    int32_t frameCountPerBuffer, const char* callbackId);
 
-EXPORT_API void port_audio_native_start_input_stream(NativeAudioStream* nativeStream);
-EXPORT_API void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream);
-EXPORT_API void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream);
+EXPORT_API void port_audio_native_start_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
+EXPORT_API void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
+EXPORT_API void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
 
 EXPORT_API void port_audio_native_destroy_input_stream(NativeAudioStream* nativeStream);
 

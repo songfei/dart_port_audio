@@ -8,6 +8,9 @@
 #include <stdint.h>
 #include "common.h"
 
+#define HAVE_STRUCT_TIMESPEC
+#include <pthread.h>
+
 typedef struct  {
     int32_t deviceIndex;
     const char* name;
@@ -22,7 +25,11 @@ typedef struct  {
     int32_t count;
 } NativeAudioDeviceInfoList;
 
-EXPORT_API void port_audio_native_initialize(void* dartApiData);
+int64_t port_audio_native_callback_port;
+
+pthread_mutex_t call_function_mutex;
+
+EXPORT_API void port_audio_native_initialize(void* dartApiData, int64_t callbackPort);
 EXPORT_API void port_audio_native_terminate();
 
 EXPORT_API NativeAudioDeviceInfo* port_audio_native_get_default_input_device();

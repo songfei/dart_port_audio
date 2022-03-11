@@ -6,12 +6,14 @@ set(CMAKE_C_STANDARD 99)
 include_directories(
     include
     lib/portaudio/include
+    lib/pthread/include
 )
 
 
 if(WIN32)
     link_directories(
         lib/portaudio/windows
+        lib/pthread/lib/x64
     )
 elseif(APPLE)
     link_directories(
@@ -41,7 +43,7 @@ set(PUBLIC_HEADERS
     src/audio_input_stream.h
 )
 
-target_link_libraries(port_audio_native portaudio)
+target_link_libraries(port_audio_native portaudio pthreadVC2)
 
 if(APPLE)
     set_target_properties(port_audio_native PROPERTIES
