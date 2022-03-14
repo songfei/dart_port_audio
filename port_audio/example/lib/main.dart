@@ -3,9 +3,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
 import 'package:port_audio/port_audio.dart';
 
 void main() {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
+
+  AudioDeviceManager.instance.isDebug = true;
+
   File file = File('timepb.bin');
 
   List<int> data = [
@@ -305,6 +313,25 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
     AudioDeviceManager.instance;
 
+    if (stream != null) {
+      audioSubscription?.cancel();
+      stream!.stop();
+      stream!.close();
+      stream = null;
+    }
+
+    var defaultDevice = AudioDeviceManager.instance.defaultInputDevice;
+
+    stream = await AudioDeviceManager.instance.createInputStream(device: defaultDevice);
+
+    print(stream);
+
+    audioSubscription = stream?.stream.listen((event) {
+      if (event is List) {
+        print(event.length);
+      }
+    });
+
     setState(() {
       // _platformVersion = platformVersion;
     });
@@ -324,23 +351,9 @@ class _MyAppState extends State<MyApp> {
             ),
             FlatButton(
               onPressed: () {
-                var defaultDevice = AudioDeviceManager.instance.defaultInputDevice;
+                // print(AudioDeviceManager.instance.inputDevices);
 
-                print(defaultDevice);
-
-                if (stream != null) {
-                  audioSubscription?.cancel();
-                  stream!.stop();
-                  stream!.close();
-                  stream = null;
-                }
-
-                stream = AudioDeviceManager.instance.createInputStream(device: defaultDevice);
-                audioSubscription = stream?.stream.listen((event) {
-                  if (event is List) {
-                    print(event.length);
-                  }
-                });
+                // print(defaultDevice);
 
                 stream!.start();
               },
@@ -348,12 +361,15 @@ class _MyAppState extends State<MyApp> {
             ),
             FlatButton(
               onPressed: () {
-                audioSubscription?.cancel();
-                stream?.stop();
-                stream?.close();
-                stream = null;
+                stream!.stop();
               },
               child: const Text('结束'),
+            ),
+            FlatButton(
+              onPressed: () {
+                stream!.close();
+              },
+              child: const Text('关闭'),
             ),
           ],
         ),

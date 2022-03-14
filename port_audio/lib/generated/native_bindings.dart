@@ -18,11 +18,70 @@ class NativeLibrary {
           lookup)
       : _lookup = lookup;
 
+  void __va_start(
+    ffi.Pointer<ffi.Pointer<ffi.Int8>> arg0,
+  ) {
+    return ___va_start(
+      arg0,
+    );
+  }
+
+  late final ___va_start_ptr =
+      _lookup<ffi.NativeFunction<_c___va_start>>('__va_start');
+  late final _dart___va_start ___va_start =
+      ___va_start_ptr.asFunction<_dart___va_start>();
+
+  void __security_init_cookie() {
+    return ___security_init_cookie();
+  }
+
+  late final ___security_init_cookie_ptr =
+      _lookup<ffi.NativeFunction<_c___security_init_cookie>>(
+          '__security_init_cookie');
+  late final _dart___security_init_cookie ___security_init_cookie =
+      ___security_init_cookie_ptr.asFunction<_dart___security_init_cookie>();
+
+  void __security_check_cookie(
+    int _StackCookie,
+  ) {
+    return ___security_check_cookie(
+      _StackCookie,
+    );
+  }
+
+  late final ___security_check_cookie_ptr =
+      _lookup<ffi.NativeFunction<_c___security_check_cookie>>(
+          '__security_check_cookie');
+  late final _dart___security_check_cookie ___security_check_cookie =
+      ___security_check_cookie_ptr.asFunction<_dart___security_check_cookie>();
+
+  void __report_gsfailure(
+    int _StackCookie,
+  ) {
+    return ___report_gsfailure(
+      _StackCookie,
+    );
+  }
+
+  late final ___report_gsfailure_ptr =
+      _lookup<ffi.NativeFunction<_c___report_gsfailure>>('__report_gsfailure');
+  late final _dart___report_gsfailure ___report_gsfailure =
+      ___report_gsfailure_ptr.asFunction<_dart___report_gsfailure>();
+
+  late final ffi.Pointer<ffi.Uint64> ___security_cookie =
+      _lookup<ffi.Uint64>('__security_cookie');
+
+  int get __security_cookie => ___security_cookie.value;
+
+  set __security_cookie(int value) => ___security_cookie.value = value;
+
   void port_audio_native_initialize(
     ffi.Pointer<ffi.Void> dartApiData,
+    int callbackPort,
   ) {
     return _port_audio_native_initialize(
       dartApiData,
+      callbackPort,
     );
   }
 
@@ -128,21 +187,44 @@ class NativeLibrary {
       _port_audio_native_destroy_device_info_list_ptr
           .asFunction<_dart_port_audio_native_destroy_device_info_list>();
 
-  ffi.Pointer<NativeAudioStream> port_audio_native_create_input_stream(
+  void port_audio_native_callback(
+    int type,
+    ffi.Pointer<ffi.Int8> callbackId,
+    int code,
+    ffi.Pointer<ffi.Void> result,
+  ) {
+    return _port_audio_native_callback(
+      type,
+      callbackId,
+      code,
+      result,
+    );
+  }
+
+  late final _port_audio_native_callback_ptr =
+      _lookup<ffi.NativeFunction<_c_port_audio_native_callback>>(
+          'port_audio_native_callback');
+  late final _dart_port_audio_native_callback _port_audio_native_callback =
+      _port_audio_native_callback_ptr
+          .asFunction<_dart_port_audio_native_callback>();
+
+  void port_audio_native_create_input_stream(
     int deviceIndex,
     int nativePort,
     int channelCount,
-    int sample_format,
-    double sample_rate,
-    int frame_count_per_buffer,
+    int sampleFormat,
+    double sampleRate,
+    int frameCountPerBuffer,
+    ffi.Pointer<ffi.Int8> callbackId,
   ) {
     return _port_audio_native_create_input_stream(
       deviceIndex,
       nativePort,
       channelCount,
-      sample_format,
-      sample_rate,
-      frame_count_per_buffer,
+      sampleFormat,
+      sampleRate,
+      frameCountPerBuffer,
+      callbackId,
     );
   }
 
@@ -156,9 +238,11 @@ class NativeLibrary {
 
   void port_audio_native_start_input_stream(
     ffi.Pointer<NativeAudioStream> nativeStream,
+    ffi.Pointer<ffi.Int8> callbackId,
   ) {
     return _port_audio_native_start_input_stream(
       nativeStream,
+      callbackId,
     );
   }
 
@@ -172,9 +256,11 @@ class NativeLibrary {
 
   void port_audio_native_stop_input_stream(
     ffi.Pointer<NativeAudioStream> nativeStream,
+    ffi.Pointer<ffi.Int8> callbackId,
   ) {
     return _port_audio_native_stop_input_stream(
       nativeStream,
+      callbackId,
     );
   }
 
@@ -188,9 +274,11 @@ class NativeLibrary {
 
   void port_audio_native_abort_input_stream(
     ffi.Pointer<NativeAudioStream> nativeStream,
+    ffi.Pointer<ffi.Int8> callbackId,
   ) {
     return _port_audio_native_abort_input_stream(
       nativeStream,
+      callbackId,
     );
   }
 
@@ -204,9 +292,11 @@ class NativeLibrary {
 
   void port_audio_native_destroy_input_stream(
     ffi.Pointer<NativeAudioStream> nativeStream,
+    ffi.Pointer<ffi.Int8> callbackId,
   ) {
     return _port_audio_native_destroy_input_stream(
       nativeStream,
+      callbackId,
     );
   }
 
@@ -217,88 +307,6 @@ class NativeLibrary {
       _port_audio_native_destroy_input_stream =
       _port_audio_native_destroy_input_stream_ptr
           .asFunction<_dart_port_audio_native_destroy_input_stream>();
-}
-
-class __darwin_pthread_handler_rec extends ffi.Struct {
-  external ffi.Pointer<ffi.NativeFunction<_typedefC_1>> __routine;
-
-  external ffi.Pointer<ffi.Void> __arg;
-
-  external ffi.Pointer<__darwin_pthread_handler_rec> __next;
-}
-
-class _opaque_pthread_attr_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_cond_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([40])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_condattr_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_mutex_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_mutexattr_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_once_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_rwlock_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([192])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_rwlockattr_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  @ffi.Array.multi([16])
-  external ffi.Array<ffi.Int8> __opaque;
-}
-
-class _opaque_pthread_t extends ffi.Struct {
-  @ffi.Int64()
-  external int __sig;
-
-  external ffi.Pointer<__darwin_pthread_handler_rec> __cleanup_stack;
-
-  @ffi.Array.multi([8176])
-  external ffi.Array<ffi.Int8> __opaque;
 }
 
 class NativeAudioDeviceInfo extends ffi.Struct {
@@ -324,6 +332,14 @@ class NativeAudioDeviceInfoList extends ffi.Struct {
   external int count;
 }
 
+abstract class NativeCallbackType {
+  static const int native_callback_type_create_input_stream = 1;
+  static const int native_callback_type_start_input_stream = 2;
+  static const int native_callback_type_stop_input_stream = 3;
+  static const int native_callback_type_abort_input_stream = 4;
+  static const int native_callback_type_destroy_input_stream = 5;
+}
+
 class NativeAudioStream extends ffi.Struct {
   external ffi.Pointer<ffi.Void> stream;
 
@@ -343,76 +359,34 @@ class NativeAudioStream extends ffi.Struct {
   external int frameCountPerBuffer;
 
   @ffi.Double()
-  external double sample_rate;
+  external double sampleRate;
 }
 
-const int __WORDSIZE = 64;
+const int _VCRT_COMPILER_PREPROCESSOR = 1;
 
-const int __DARWIN_ONLY_64_BIT_INO_T = 0;
+const int _SAL_VERSION = 20;
 
-const int __DARWIN_ONLY_UNIX_CONFORMANCE = 1;
+const int __SAL_H_VERSION = 180000000;
 
-const int __DARWIN_ONLY_VERS_1050 = 0;
+const int _USE_DECLSPECS_FOR_SAL = 0;
 
-const int __DARWIN_UNIX03 = 1;
+const int _USE_ATTRIBUTES_FOR_SAL = 0;
 
-const int __DARWIN_64_BIT_INO_T = 1;
+const int _CRT_PACKING = 8;
 
-const int __DARWIN_VERS_1050 = 1;
+const int _VCRUNTIME_DISABLED_WARNINGS = 4514;
 
-const int __DARWIN_NON_CANCELABLE = 0;
+const int _HAS_EXCEPTIONS = 1;
 
-const String __DARWIN_SUF_64_BIT_INO_T = '\$INODE64';
+const int _WCHAR_T_DEFINED = 1;
 
-const String __DARWIN_SUF_1050 = '\$1050';
+const int NULL = 0;
 
-const String __DARWIN_SUF_EXTSN = '\$DARWIN_EXTSN';
+const int _HAS_CXX17 = 0;
 
-const int __DARWIN_C_ANSI = 4096;
+const int _HAS_CXX20 = 0;
 
-const int __DARWIN_C_FULL = 900000;
-
-const int __DARWIN_C_LEVEL = 900000;
-
-const int __STDC_WANT_LIB_EXT1__ = 1;
-
-const int __DARWIN_NO_LONG_LONG = 0;
-
-const int _DARWIN_FEATURE_64_BIT_INODE = 1;
-
-const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
-
-const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
-
-const int __DARWIN_NULL = 0;
-
-const int __PTHREAD_SIZE__ = 8176;
-
-const int __PTHREAD_ATTR_SIZE__ = 56;
-
-const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
-
-const int __PTHREAD_MUTEX_SIZE__ = 56;
-
-const int __PTHREAD_CONDATTR_SIZE__ = 8;
-
-const int __PTHREAD_COND_SIZE__ = 40;
-
-const int __PTHREAD_ONCE_SIZE__ = 8;
-
-const int __PTHREAD_RWLOCK_SIZE__ = 192;
-
-const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-
-const int USER_ADDR_NULL = 0;
-
-const int INT8_MAX = 127;
-
-const int INT16_MAX = 32767;
-
-const int INT32_MAX = 2147483647;
-
-const int INT64_MAX = 9223372036854775807;
+const int _HAS_NODISCARD = 1;
 
 const int INT8_MIN = -128;
 
@@ -421,6 +395,14 @@ const int INT16_MIN = -32768;
 const int INT32_MIN = -2147483648;
 
 const int INT64_MIN = -9223372036854775808;
+
+const int INT8_MAX = 127;
+
+const int INT16_MAX = 32767;
+
+const int INT32_MAX = 2147483647;
+
+const int INT64_MAX = 9223372036854775807;
 
 const int UINT8_MAX = 255;
 
@@ -456,7 +438,7 @@ const int UINT_LEAST64_MAX = -1;
 
 const int INT_FAST8_MIN = -128;
 
-const int INT_FAST16_MIN = -32768;
+const int INT_FAST16_MIN = -2147483648;
 
 const int INT_FAST32_MIN = -2147483648;
 
@@ -464,7 +446,7 @@ const int INT_FAST64_MIN = -9223372036854775808;
 
 const int INT_FAST8_MAX = 127;
 
-const int INT_FAST16_MAX = 32767;
+const int INT_FAST16_MAX = 2147483647;
 
 const int INT_FAST32_MAX = 2147483647;
 
@@ -472,23 +454,23 @@ const int INT_FAST64_MAX = 9223372036854775807;
 
 const int UINT_FAST8_MAX = 255;
 
-const int UINT_FAST16_MAX = 65535;
+const int UINT_FAST16_MAX = 4294967295;
 
 const int UINT_FAST32_MAX = 4294967295;
 
 const int UINT_FAST64_MAX = -1;
 
-const int INTPTR_MAX = 9223372036854775807;
-
 const int INTPTR_MIN = -9223372036854775808;
 
+const int INTPTR_MAX = 9223372036854775807;
+
 const int UINTPTR_MAX = -1;
+
+const int INTMAX_MIN = -9223372036854775808;
 
 const int INTMAX_MAX = 9223372036854775807;
 
 const int UINTMAX_MAX = -1;
-
-const int INTMAX_MIN = -9223372036854775808;
 
 const int PTRDIFF_MIN = -9223372036854775808;
 
@@ -496,30 +478,58 @@ const int PTRDIFF_MAX = 9223372036854775807;
 
 const int SIZE_MAX = -1;
 
-const int RSIZE_MAX = 9223372036854775807;
-
-const int WCHAR_MAX = 2147483647;
-
-const int WCHAR_MIN = -2147483648;
-
-const int WINT_MIN = -2147483648;
-
-const int WINT_MAX = 2147483647;
-
 const int SIG_ATOMIC_MIN = -2147483648;
 
 const int SIG_ATOMIC_MAX = 2147483647;
+
+const int WCHAR_MIN = 0;
+
+const int WCHAR_MAX = 65535;
+
+const int WINT_MIN = 0;
+
+const int WINT_MAX = 65535;
 
 const int SAMPLE_FORMAT_INT16 = 0;
 
 const int SAMPLE_FORMAT_FLOAT32 = 1;
 
+typedef _c___va_start = ffi.Void Function(
+  ffi.Pointer<ffi.Pointer<ffi.Int8>> arg0,
+);
+
+typedef _dart___va_start = void Function(
+  ffi.Pointer<ffi.Pointer<ffi.Int8>> arg0,
+);
+
+typedef _c___security_init_cookie = ffi.Void Function();
+
+typedef _dart___security_init_cookie = void Function();
+
+typedef _c___security_check_cookie = ffi.Void Function(
+  ffi.Uint64 _StackCookie,
+);
+
+typedef _dart___security_check_cookie = void Function(
+  int _StackCookie,
+);
+
+typedef _c___report_gsfailure = ffi.Void Function(
+  ffi.Uint64 _StackCookie,
+);
+
+typedef _dart___report_gsfailure = void Function(
+  int _StackCookie,
+);
+
 typedef _c_port_audio_native_initialize = ffi.Void Function(
   ffi.Pointer<ffi.Void> dartApiData,
+  ffi.Int64 callbackPort,
 );
 
 typedef _dart_port_audio_native_initialize = void Function(
   ffi.Pointer<ffi.Void> dartApiData,
+  int callbackPort,
 );
 
 typedef _c_port_audio_native_terminate = ffi.Void Function();
@@ -566,58 +576,76 @@ typedef _dart_port_audio_native_destroy_device_info_list = void Function(
   ffi.Pointer<NativeAudioDeviceInfoList> list,
 );
 
-typedef _c_port_audio_native_create_input_stream
-    = ffi.Pointer<NativeAudioStream> Function(
+typedef _c_port_audio_native_callback = ffi.Void Function(
+  ffi.Int32 type,
+  ffi.Pointer<ffi.Int8> callbackId,
+  ffi.Int32 code,
+  ffi.Pointer<ffi.Void> result,
+);
+
+typedef _dart_port_audio_native_callback = void Function(
+  int type,
+  ffi.Pointer<ffi.Int8> callbackId,
+  int code,
+  ffi.Pointer<ffi.Void> result,
+);
+
+typedef _c_port_audio_native_create_input_stream = ffi.Void Function(
   ffi.Int32 deviceIndex,
   ffi.Int64 nativePort,
   ffi.Int32 channelCount,
-  ffi.Int32 sample_format,
-  ffi.Double sample_rate,
-  ffi.Int32 frame_count_per_buffer,
+  ffi.Int32 sampleFormat,
+  ffi.Double sampleRate,
+  ffi.Int32 frameCountPerBuffer,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
-typedef _dart_port_audio_native_create_input_stream
-    = ffi.Pointer<NativeAudioStream> Function(
+typedef _dart_port_audio_native_create_input_stream = void Function(
   int deviceIndex,
   int nativePort,
   int channelCount,
-  int sample_format,
-  double sample_rate,
-  int frame_count_per_buffer,
+  int sampleFormat,
+  double sampleRate,
+  int frameCountPerBuffer,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _c_port_audio_native_start_input_stream = ffi.Void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _dart_port_audio_native_start_input_stream = void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _c_port_audio_native_stop_input_stream = ffi.Void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _dart_port_audio_native_stop_input_stream = void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _c_port_audio_native_abort_input_stream = ffi.Void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _dart_port_audio_native_abort_input_stream = void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _c_port_audio_native_destroy_input_stream = ffi.Void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
+  ffi.Pointer<ffi.Int8> callbackId,
 );
 
 typedef _dart_port_audio_native_destroy_input_stream = void Function(
   ffi.Pointer<NativeAudioStream> nativeStream,
-);
-
-typedef _typedefC_1 = ffi.Void Function(
-  ffi.Pointer<ffi.Void>,
+  ffi.Pointer<ffi.Int8> callbackId,
 );

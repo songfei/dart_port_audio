@@ -31,6 +31,6 @@ EXPORT_API void port_audio_native_start_input_stream(NativeAudioStream* nativeSt
 EXPORT_API void port_audio_native_stop_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
 EXPORT_API void port_audio_native_abort_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
 
-EXPORT_API void port_audio_native_destroy_input_stream(NativeAudioStream* nativeStream);
+EXPORT_API void port_audio_native_destroy_input_stream(NativeAudioStream* nativeStream, const char* callbackId);
 
 #endif //PORT_AUDIO_NATIVE_AUDIO_RECORDER_H

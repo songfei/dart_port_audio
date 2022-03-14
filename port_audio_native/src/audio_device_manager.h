@@ -8,9 +8,6 @@
 #include <stdint.h>
 #include "common.h"
 
-#define HAVE_STRUCT_TIMESPEC
-#include <pthread.h>
-
 typedef struct  {
     int32_t deviceIndex;
     const char* name;
@@ -25,9 +22,6 @@ typedef struct  {
     int32_t count;
 } NativeAudioDeviceInfoList;
 
-int64_t port_audio_native_callback_port;
-
-pthread_mutex_t call_function_mutex;
 
 EXPORT_API void port_audio_native_initialize(void* dartApiData, int64_t callbackPort);
 EXPORT_API void port_audio_native_terminate();
@@ -40,5 +34,16 @@ EXPORT_API NativeAudioDeviceInfoList* port_audio_native_get_output_device_list()
 
 EXPORT_API void port_audio_native_destroy_device_info(NativeAudioDeviceInfo* info);
 EXPORT_API void port_audio_native_destroy_device_info_list(NativeAudioDeviceInfoList* list);
+
+typedef enum {
+    native_callback_type_create_input_stream = 1,
+    native_callback_type_start_input_stream,
+    native_callback_type_stop_input_stream,
+    native_callback_type_abort_input_stream,
+    native_callback_type_destroy_input_stream,
+
+} NativeCallbackType;
+
+void port_audio_native_callback(NativeCallbackType type, char* callbackId, int32_t code, void* result);
 
 #endif //PORT_AUDIO_NATIVE_AUDIO_DEVICE_MANAGER_H

@@ -7,7 +7,13 @@
 
 #include <portaudio.h>
 #include <stdlib.h>
-#include <stdio.h>
+
+#define HAVE_STRUCT_TIMESPEC
+#include <pthread.h>
+
+int64_t port_audio_native_callback_port;
+pthread_mutex_t call_function_mutex;
+
 
 void port_audio_native_initialize(void* dartApiData, int64_t callbackPort) {
     Dart_InitializeApiDL(dartApiData);
@@ -21,26 +27,32 @@ void port_audio_native_terminate() {
     pthread_mutex_destroy(&call_function_mutex);
 }
 
-void port_audio_native_callback(void* result, const char* callbackId) {
+void port_audio_native_callback(NativeCallbackType type, char* callbackId, int32_t code, void* result) {
+
+    Dart_CObject callbackTypeObject;
+    callbackTypeObject.type = Dart_CObject_kInt32;
+    callbackTypeObject.value.as_int32 = type;
 
     Dart_CObject callbackIdObject;
     callbackIdObject.type = Dart_CObject_kString;
     callbackIdObject.value.as_string = callbackId;
 
+    Dart_CObject codeObject;
+    codeObject.type = Dart_CObject_kInt32;
+    codeObject.value.as_int32 = code;
+
     Dart_CObject resultObject;
     resultObject.type = Dart_CObject_kNativePointer;
-    resultObject.value.as_native_pointer.ptr = result;
+    resultObject.value.as_native_pointer.ptr = (intptr_t)result;
 
-    Dart_CObject* value_objects[] = {&callbackIdObject, &resultObject};
+    Dart_CObject* value_objects[] = {&callbackTypeObject, &callbackIdObject, &codeObject, &resultObject};
 
     Dart_CObject dart_object;
     dart_object.type = Dart_CObject_kArray;
-    dart_object.value.as_array.length = 2;
+    dart_object.value.as_array.length = 4;
     dart_object.value.as_array.values = value_objects;
 
     Dart_PostCObject_DL(port_audio_native_callback_port, &dart_object);
-
-    free(callbackId);
 }
 
 NativeAudioDeviceInfo* port_audio_native_create_native_device_info(int index, const PaDeviceInfo* info) {
